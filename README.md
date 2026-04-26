@@ -13,24 +13,26 @@
 </div>
 
 ## 💡 Overview
-CarbonTracker is a powerful and intuitive Machine Learning pipeline built using PyTorch and Google Earth Engine, designed to streamline forest carbon monitoring. With a focus on scalability and environmental impact, CarbonTracker allows for the instant estimation of Above-Ground Biomass (AGB) and equivalent carbon stocks directly from satellite imagery.
+CarbonTracker is a powerful and intuitive Machine Learning pipeline built using PyTorch and Google Earth Engine, designed to streamline forest carbon monitoring. 
+
+With a focus on scalability and environmental impact, CarbonTracker allows for the instant estimation of **Above-Ground Biomass (AGB)**, **Carbon Stocks**, and **CO₂ Equivalent** directly from satellite imagery.
+
+> **Note on Model Scope:** To ensure scientific accuracy, the current ResNet-18 model was strictly trained on ground-truth data from the Oise region in France (temperate deciduous forests). Inference via the web interface is geographically locked to this area to prevent erroneous predictions in unsupported biomes (e.g., tropical or boreal forests).
 
 ## ✨ Features
-- **🌍 Live Satellite Extraction:** Dynamically fetches and processes Copernicus Sentinel-2 data (including Near-Infrared) anywhere in the world.
-- **🧠 Advanced Deep Learning:** Utilizes a custom ResNet18 architecture modified for 4-channel spectral inputs and regression tasks.
-- **🗺️ Interactive Mapping:** Visualizes the exact analyzed spatial footprint overlaying a high-resolution Google Maps satellite view.
-- **🎲 Random Zone Exploration:** Built-in tool to instantly generate coordinates in relevant forested areas for quick testing.
-- **🎯 Physical Safeguards:** Algorithm constraints guarantee logical real-world physical outputs.
-- **🚀 Production Ready:** Containerized with Docker and fully deployed for real-time inference.
+- **🌍 Live Satellite Extraction:** Dynamically fetches and processes Copernicus Sentinel-2 data (RGB + Near-Infrared) on the fly via the Google Earth Engine API.
+- **🧠 Advanced Deep Learning:** Utilizes a custom ResNet-18 architecture, modified specifically for 4-channel spectral inputs and regression tasks.
+- **🗺️ Interactive Mapping:** Visualizes the exact 2.5km² spatial footprint analyzed by the model, overlaying a high-resolution Esri satellite view.
+- **⚗️ Physical Conversions:** Implements standard IPCC conversion factors to translate raw predicted biomass into actionable climate metrics (Carbon & CO₂ Eq).
+- **🚀 Production Ready:** Packaged with `uv`, modular codebase, decoupled training/inference pipelines, and ready for Docker containerization.
 
-Whether you're a data scientist, an environmental researcher, or part of a climate-tech initiative, CarbonTracker is the perfect proof-of-concept for remote sensing analysis. 🛰️
+Whether you're a data scientist, an environmental researcher, or part of a climate-tech initiative, CarbonTracker serves as a robust proof-of-concept for end-to-end remote sensing engineering. 🛰️
 
 ## 👩‍💻 Tech Stack
-- **Python**: Core programming language for data engineering and model training.
-- **PyTorch**: Deep learning framework used for adapting and training the ResNet18 Convolutional Neural Network.
-- **Google Earth Engine (GEE)**: Cloud-based geospatial processing engine used to extract and composite multispectral satellite patches.
-- **Streamlit**: A fast, Python-based web framework for building the interactive user interface.
-- **Folium**: Python wrapper for Leaflet.js, handling the interactive map rendering.
+- **Python (>= 3.10)**: Core programming language for data engineering and model training.
+- **PyTorch**: Deep learning framework used for adapting and training the Convolutional Neural Network.
+- **Google Earth Engine (GEE)**: Cloud-based geospatial API used to extract and composite multispectral satellite patches without heavy local storage.
+- **Streamlit & Folium**: Fast web framework and mapping integration for building the interactive user interface.
 - **Package Management**: Managed seamlessly using `uv` and `pyproject.toml`.
 
 ## 📖 Sources and External Data
@@ -58,6 +60,7 @@ To get a local copy of this project up and running, follow these steps.
    Using `uv`, this creates an isolated environment and installs the package in editable mode.
    ```bash
    uv venv
+   
    # Activate the environment (Windows)
    .venv\Scripts\activate
    # Or on Mac/Linux: source .venv/bin/activate
@@ -65,10 +68,16 @@ To get a local copy of this project up and running, follow these steps.
    uv pip install -e .
    ```
 
-3. **Set up environment variables:**
-   You must configure your Earth Engine credentials. Create a `.env` file at the root of the project:
-   ```env
-   EARTHENGINE_TOKEN={"type": "service_account", "project_id": "...", "private_key": "...", "client_email": "..."}
+3. **Set up Google Earth Engine Authentication:**
+   You must configure your Earth Engine credentials and project ID.
+   First, authenticate locally via the command line:
+   ```bash
+   earthengine authenticate
+   ```
+   Then, create a `.env` file at the root of the project and specify your Google Cloud Project ID:
+   
+```env
+   EE_PROJECT_ID="your-gcp-project-id"
    ```
 
 4. **Ensure Model Availability:**
@@ -76,21 +85,21 @@ To get a local copy of this project up and running, follow these steps.
 
 ## 📖 Usage
 
-### ✔ Running the Web Application
+### ✔️ Running the Web Application
 To launch the Streamlit interface locally:
 ```bash
-uv run streamlit run app/app.py
+uv run streamlit run app.py
 ```
 > Open http://localhost:8501 to view the app in your browser.
 
-### ✔ Running the Training Pipeline
-To extract data and train the model from scratch:
+### ✔️ Running the Training Pipeline
+To extract fresh data from the Oise region and train the model from scratch:
 ```bash
 uv run python train_pipeline.py
 ```
 
 ## 🤝 Contributing
-I welcome contributions to this project! Please follow these steps to contribute:
+Contributions to extend the model's validity to other biomes are highly welcome!
 1. **Fork the repository.**
 2. **Create a new branch** (`git checkout -b feature/your-feature-name`).
 3. **Make your changes** and commit them (`git commit -m 'Add some feature'`).

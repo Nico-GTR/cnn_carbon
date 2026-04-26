@@ -1,54 +1,53 @@
 import torch
+import torch.nn as nn
+import torch.optim as optim
 from pathlib import Path
-from carbon_tracker.data.dataset import get_dataloaders
+
+# Import custom model architecture and training loop
 from carbon_tracker.models.resnet import get_multispectral_resnet
 from carbon_tracker.training.loop import train_model
 
+# Import your data loaders (adjust this path if your function is named differently)
+from carbon_tracker.data.dataset import get_dataloaders
+
 def main():
-    """
-    Main execution pipeline for model training.
-    Assembles data loaders, initializes the model, and starts the training loop.
-    """
-    # 1. Configuration
+    print("--- Environment Status ---")
+    # Automatically detect hardware (CUDA if available, otherwise CPU)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Target Compute Device: {device.type.upper()}\n")
+
+    print("--- Preparing Data ---")
+    # Load the training and validation datasets
     data_dir = Path("data/raw")
     x_path = data_dir / "X_train.npy"
     y_path = data_dir / "y_train.npy"
-    
-    # Hardware detection: Automatically fall back to CPU if no NVIDIA GPU is found
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"--- Environment Status ---")
-    print(f"Target Compute Device: {device.upper()}")
-    
-    if not x_path.exists() or not y_path.exists():
-        print(f"Error: Data files not found in {data_dir}.")
-        print("Please run 'python src/carbon_tracker/data/extractor.py' first.")
-        return
+    train_loader, val_loader = get_dataloaders(x_path, y_path) 
+    print(f"Training batches: {len(train_loader)} | Validation batches: {len(val_loader)}\n")
 
-    # 2. Data Preparation
-    print("\n--- Preparing Data ---")
-    # Batch size of 16 is safe for CPUs and 4-channel images
-    train_loader, val_loader = get_dataloaders(x_path, y_path, batch_size=16)
-    print(f"Training batches: {len(train_loader)} | Validation batches: {len(val_loader)}")
-
-    # 3. Model Initialization
-    print("\n--- Initializing Multispectral ResNet-18 ---")
+    print("--- Initializing Multispectral ResNet-18 ---")
+    # Initialize the model and send it to the designated device
     model = get_multispectral_resnet()
+    model = model.to(device)
 
-    # 4. Training Execution
-    print("\n--- Starting Training Process ---")
-    # FOR LOCAL TESTING: Set num_epochs=1 or 2. 
-    # FOR FULL TRAINING (Colab/GPU): Set num_epochs=50.
+    # -------------------------------------------------------------
+    # CRITICAL ADDITION: Define Loss Function and Optimizer
+    # -------------------------------------------------------------
+    # Mean Squared Error for regression tasks
+    criterion = nn.MSELoss()
+    # Adam optimizer with standard learning rate
+    optimizer = optim.Adam(model.parameters(), lr=1e-4)
+
+    # Execute the training loop with all required arguments
     trained_model = train_model(
         model=model,
         train_loader=train_loader,
         val_loader=val_loader,
-        num_epochs=2,         # <--- Changed to 2 for local CPU test
-        learning_rate=0.001,
-        patience=5,
+        criterion=criterion,
+        optimizer=optimizer,
+        num_epochs=50,
+        patience=10,
         device=device
     )
-
-    print("\nPipeline execution completed successfully.")
 
 if __name__ == "__main__":
     main()
