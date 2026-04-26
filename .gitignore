@@ -1,0 +1,22 @@
+# Environnements virtuels
+.venv/
+env/
+venv/
+
+# Fichiers de cache et de compilation Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Fichiers de données et modèles (à gérer via Git LFS si besoin)
+*.npy
+*.pth
+data/
+models/weights/
+
+# Secrets
+.env
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
