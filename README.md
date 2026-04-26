@@ -8,7 +8,7 @@ sdk_version: "1.30.0"
 app_file: app.py
 pinned: false
 license: mit
-python_version: 3.10.13
+python_version: 3.11.8
 ---
 
 <div align="center">
@@ -21,7 +21,7 @@ python_version: 3.10.13
 ![](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 ![](https://img.shields.io/badge/Hugging_Face-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)
 
-[👉 Try the Live Demo on Hugging Face Spaces](https://huggingface.co/spaces/Nico-GTR/Forest-Carbon-Tracker)
+[👉 Try the Live Demo on Hugging Face Spaces](https://huggingface.co/spaces/Nico-GTR/carbon-tracker-oise)
 
 </div>
 
