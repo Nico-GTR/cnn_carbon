@@ -9,14 +9,14 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 
-# Fichiers de données et modèles (à gérer via Git LFS si besoin)
+# Fichiers de données brutes (trop volumineux pour Git)
 *.npy
-*.pth
 data/
-models/weights/
 
 # Secrets
 .env
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
+
+# Note: models/weights/*.pth est géré via Git LFS (voir .gitattributes)

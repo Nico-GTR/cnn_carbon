@@ -1,2 +1,6 @@
+# Git LFS tracking rules
+# Le fichier de poids du modèle (44 MB) est suivi via Git LFS
+*.pth filter=lfs diff=lfs merge=lfs -text
+*.pt filter=lfs diff=lfs merge=lfs -text
 *.png filter=lfs diff=lfs merge=lfs -text
 *.npy filter=lfs diff=lfs merge=lfs -text
