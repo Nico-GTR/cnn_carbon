@@ -81,6 +81,11 @@ def init_earth_engine():
             )
             ee.Initialize(credentials=credentials, project=project_id)
         else:
+            # Prevent GCP metadata timeout hang on Hugging Face Spaces
+            if os.environ.get("SPACE_ID"):
+                st.error("Running on Hugging Face Spaces but GEE_SERVICE_ACCOUNT_KEY secret is not set in 'Settings' -> 'Variables and secrets'.")
+                return False
+                
             # --- Local development mode: standard OAuth2 credentials ---
             if project_id:
                 ee.Initialize(project=project_id)
