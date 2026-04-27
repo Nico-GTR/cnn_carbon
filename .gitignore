@@ -11,7 +11,7 @@ __pycache__/
 
 # Fichiers de données brutes (trop volumineux pour Git)
 *.npy
-data/
+/data/
 
 # Secrets
 .env
