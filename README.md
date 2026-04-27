@@ -104,7 +104,7 @@ Your browser will automatically open `http://localhost:8501` where you can inter
 - `models/weights/`: Saved trained PyTorch models (`.pth`).
 
 ## �📖 Sources
-- [Copernicus Open Access Hub](https://scihub.copernicus.eu/) — Sentinel-2 Level-2A imagery
+- [Copernicus Open Access Hub](https://www.copernicus.eu/en/access-data/conventional-data-access-hubs) — Sentinel-2 Level-2A imagery
 - [ESA CCI Biomass](https://climate.esa.int/en/projects/biomass/) — Above-Ground Biomass ground truth
 - [Google Earth Engine Data Catalog](https://developers.google.com/earth-engine/datasets)
 
