@@ -46,7 +46,64 @@ Given a location in the **Oise region, France**, the app:
 - **Google Earth Engine** — Cloud geospatial API
 - **Streamlit & Folium** — Interactive web interface
 
-## 📖 Sources
+## � Getting Started (Beginner Friendly)
+
+Want to run this project on your own machine? Follow these simple steps!
+
+### 1. Prerequisites
+- **Python 3.10 or 3.11** installed on your computer.
+- A **Google Earth Engine account**. If you don't have one, [sign up here](https://earthengine.google.com/).
+- Git (optional, but recommended).
+
+### 2. Clone the Repository
+Open your terminal (or Command Prompt) and run:
+```bash
+git clone https://github.com/Nico-GTR/cnn_carbon.git
+cd cnn_carbon
+```
+
+### 3. Set up a Virtual Environment
+It's highly recommended to use a virtual environment so you don't mess up your global Python packages.
+```bash
+# On Windows
+python -m venv .venv
+.venv\Scripts\activate
+
+# On Mac/Linux
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### 4. Install Dependencies
+Install all the required libraries:
+```bash
+pip install -r requirements.txt
+```
+
+### 5. Authenticate with Google Earth Engine
+Before running the app, you need to tell Google Earth Engine who you are:
+```bash
+earthengine authenticate
+```
+*This will open a browser window. Log in with your Google account and allow the permissions. Note: If you are setting this up for a server or Hugging Face, you will need a Service Account Key instead.*
+
+### 6. Run the App
+Start the Streamlit interface:
+```bash
+streamlit run app.py
+```
+Your browser will automatically open `http://localhost:8501` where you can interact with the app!
+
+## 📁 Project Structure
+- `app.py`: The main Streamlit web application.
+- `src/carbon_tracker/`: The core python package.
+  - `data/`: Code to extract Sentinel-2 data and build datasets.
+  - `models/`: PyTorch model architectures (ResNet-18).
+  - `training/`: Training loops and logic.
+  - `utils/`: Physics math to convert Biomass to CO2 equivalents.
+- `models/weights/`: Saved trained PyTorch models (`.pth`).
+
+## �📖 Sources
 - [Copernicus Open Access Hub](https://scihub.copernicus.eu/) — Sentinel-2 Level-2A imagery
 - [ESA CCI Biomass](https://climate.esa.int/en/projects/biomass/) — Above-Ground Biomass ground truth
 - [Google Earth Engine Data Catalog](https://developers.google.com/earth-engine/datasets)
