@@ -1,4 +1,5 @@
 import ee
+import os
 import numpy as np
 from tqdm import tqdm
 from pathlib import Path
@@ -6,14 +7,21 @@ from pathlib import Path
 def initialize_ee():
     """
     Initialize Google Earth Engine API.
-    Attempts to initialize with a specific project ID. Falls back to 
-    authentication flow if initialization fails.
+    Attempts to initialize with a specific project ID from environment variables.
+    Falls back to authentication flow if initialization fails.
     """
+    project_id = os.environ.get('EE_PROJECT_ID')
     try:
-        ee.Initialize(project='cnn-carbon-forest-1') 
+        if project_id:
+            ee.Initialize(project=project_id)
+        else:
+            ee.Initialize()
     except Exception:
         ee.Authenticate()
-        ee.Initialize()
+        if project_id:
+            ee.Initialize(project=project_id)
+        else:
+            ee.Initialize()
 
 def get_stratified_points(region, pool_size):
     """
