@@ -1,0 +1,13 @@
+name: Ping Hugging Face Space
+
+on:
+  schedule:
+    - cron: "0 8 * * *" # every day at 08:00 UTC
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Space to keep it awake
+        run: curl -sS -o /dev/null -w "HTTP %{http_code}\n" --fail https://nico-gtr-carbon-tracker-oise.hf.space
