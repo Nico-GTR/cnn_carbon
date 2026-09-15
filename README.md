@@ -24,6 +24,8 @@ python_version: 3.11.8
 
 </div>
 
+![Carbon Tracker demo screenshot](docs/demo_screenshot.png)
+
 ## 💡 Overview
 CarbonTracker is a Machine Learning pipeline built with PyTorch and Google Earth Engine, designed to estimate forest carbon stocks from satellite imagery.
 
